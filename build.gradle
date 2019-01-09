@@ -1,0 +1,110 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'maven-publish'
+}
+
+apply plugin: 'java-library'
+apply from: 'jdks.gradle'
+
+ext {
+    ver = '1.0.0'
+    pkg = 'com.austinv11.mr'
+}
+
+group pkg
+version ver
+
+repositories {
+    jcenter()
+}
+
+sourceSets {
+    java9 {
+        java {
+            srcDirs = ['src/main/java9']
+        }
+    }
+}
+
+dependencies {
+    java9Implementation files(sourceSets.main.output.classesDirs) { builtBy compileJava }
+
+    compile "io.projectreactor:reactor-core:3.2.5.RELEASE"
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileJava {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
+
+compileJava9Java {
+    sourceCompatibility = 9
+    targetCompatibility = 9
+}
+
+jar {
+    into('META-INF/versions/9') {
+        from sourceSets.java9.output
+    }
+    manifest.attributes(
+            'Multi-Release': 'true'
+    )
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+javadoc {
+    failOnError false
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'MapReact'
+                description = 'Reactive interface for handling storage of arbitrary java beans'
+                url = 'https://github.com/austinv11/MapReact'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'austinv11'
+                        name = 'Austin Varela'
+                        email = 'austinv11@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/austinv11/MapReact.git'
+                    url = 'https://github.com/austinv11/MapReact'
+                }
+            }
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId pkg
+            artifactId 'MapReact'
+            version ver
+        }
+    }
+}
