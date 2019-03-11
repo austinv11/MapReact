@@ -1,10 +1,12 @@
 package mr.noop;
 
+import com.austinv11.servicer.WireService;
 import mr.api.DataSource;
 import mr.api.DataStream;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 
+@WireService(DataSource.class)
 public class NoOpDataSource implements DataSource {
 
     @Override

@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * <p>
  * <b>Note:</b> Only one primary index is allowed for any given payload and they need not be unique!
  *
- * @see mr.annotations.Payload
+ * @see Reactant
  * @see mr.annotations.SecondaryIndex
  */
 @Documented

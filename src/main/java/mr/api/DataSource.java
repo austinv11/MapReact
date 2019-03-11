@@ -17,7 +17,7 @@ public interface DataSource extends Comparable<DataSource> {
      * @param payloadType The payload type to prepare for.
      * @return A publisher which completes once the source is prepared for the given payload type.
      *
-     * @see mr.annotations.Payload
+     * @see mr.annotations.Reactant
      */
     Publisher<?> prime(Class<?> payloadType);
 

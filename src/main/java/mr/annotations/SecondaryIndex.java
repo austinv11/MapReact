@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * <p>
  * <b>Note:</b> Secondary indexes need not be unique!
  *
- * @see mr.annotations.Payload
+ * @see Reactant
  * @see mr.annotations.PrimaryIndex
  */
 @Documented
